@@ -5,7 +5,6 @@ module Strategies
       e1, e2 = dataset[entity1], dataset[entity2] #get dataset slices for each entity
       shared_items = e1.keys.reject{|k| e2[k].nil?}# get the shared items
       n = shared_items.size
-      puts "n=#{n}"
       return 0 if n.size == 0
     
       #sum the all items

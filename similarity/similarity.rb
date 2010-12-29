@@ -7,17 +7,16 @@ class Similarity
     @dataset = dataset 
   end
 
-  def self.euclidean(dataset)
-    Similarity.new(dataset, Strategies::Euclidean.new)
-  end
-
-
-  def self.pearson(dataset)
-    Similarity.new(dataset, Strategies::Pearson.new)
+  def self.method_missing(method_id, *args)
+    dataset = args[0]
+    strategy =  Strategies.const_get(method_id.to_s.capitalize)
+    Similarity.new(dataset, strategy.new)
   end
 
   def between(entity1, entity2)
     @strategy.get_similarity(@dataset, entity1, entity2)
   end
-
+  def distances(entity)
+    @dataset.keys.reject{|e| e == entity}.inject(Hash.new){|h, k| h[k] = between(entity, k);h}
+  end
 end
