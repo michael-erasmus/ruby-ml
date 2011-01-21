@@ -19,4 +19,7 @@ class Similarity
   def distances(entity)
     @dataset.keys.reject{|e| e == entity}.inject(Hash.new){|h, k| h[k] = between(entity, k);h}
   end
+  def top(entity, n=3)
+    distances(entity).sort_by{|d| d[1]}.reverse.take(n)
+  end
 end
